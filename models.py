@@ -48,3 +48,57 @@ class Prereq(models.Model):
         managed = False
         db_table = 'prereq'
         unique_together = (('course', 'preq'),)
+
+
+class Section(models.Model):
+    course = models.OneToOneField(Course, models.DO_NOTHING, primary_key=True)  # The composite primary key (course_id, sec_id, semester, year) found, that is not supported. The first column is selected.
+    sec_id = models.CharField(max_length=4)
+    semester = models.IntegerField()
+    year = models.IntegerField()
+    building = models.CharField(max_length=32, blank=True, null=True)
+    room = models.CharField(max_length=8, blank=True, null=True)
+    capacity = models.IntegerField(blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'section'
+        unique_together = (('course', 'sec_id', 'semester', 'year'),)
+
+
+class Student(models.Model):
+    student_id = models.CharField(primary_key=True, max_length=8)
+    name = models.CharField(max_length=32, blank=True, null=True)
+    dept_name = models.ForeignKey(Department, models.DO_NOTHING, db_column='dept_name', blank=True, null=True)
+    total_credits = models.IntegerField(blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'student'
+
+
+class Takes(models.Model):
+    student = models.OneToOneField(Student, models.DO_NOTHING, primary_key=True)  # The composite primary key (student_id, course_id, sec_id, semester, year) found, that is not supported. The first column is selected.
+    course = models.ForeignKey(Section, models.DO_NOTHING)
+    sec = models.ForeignKey(Section, models.DO_NOTHING, to_field='sec_id', related_name='takes_sec_set')
+    semester = models.ForeignKey(Section, models.DO_NOTHING, db_column='semester', to_field='semester', related_name='takes_semester_set')
+    year = models.ForeignKey(Section, models.DO_NOTHING, db_column='year', to_field='year', related_name='takes_year_set')
+    grade = models.CharField(max_length=2, blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'takes'
+        unique_together = (('student', 'course', 'sec', 'semester', 'year'),)
+
+
+
+class Teaches(models.Model):
+    course = models.OneToOneField(Section, models.DO_NOTHING, primary_key=True)  # The composite primary key (course_id, sec_id, semester, year, teacher_id) found, that is not supported. The first column is selected.
+    sec = models.ForeignKey(Section, models.DO_NOTHING, to_field='sec_id', related_name='teaches_sec_set')
+    semester = models.ForeignKey(Section, models.DO_NOTHING, db_column='semester', to_field='semester', related_name='teaches_semester_set')
+    year = models.ForeignKey(Section, models.DO_NOTHING, db_column='year', to_field='year', related_name='teaches_year_set')
+    teacher = models.ForeignKey(Instructor, models.DO_NOTHING)
+
+    class Meta:
+        managed = False
+        db_table = 'teaches'
+        unique_together = (('course', 'sec', 'semester', 'year', 'teacher'),)

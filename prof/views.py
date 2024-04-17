@@ -4,21 +4,13 @@ from .models import Instructor
 # Create your views here.
 
 '''
-def home(request):
-    return HttpResponse("Professor page")
-'''
-
-''''
-def home(request):
-    profs = Instructor.objects.all()
-    return render(request, 'prof/index.html',{'Professors':profs})
-'''
-'''
-def indexPageView(request):
-    return render(request, 'prof/index.html')
-'''
-
 def listProfView(request):
     data = Instructor.objects.all()
     context = {"Instructors": data}
     return render(request, 'listprofs.html',context)
+'''
+
+def BootstrapFilterView(request):
+    profName = request.GET.get('profName')
+    print(profName)
+    return render(request, 'bootstrap_form.html',{})

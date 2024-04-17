@@ -17,7 +17,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path,include
 #from prof.urls import urlpatterns as prof_urls
-from prof.views import listProfView
+#from prof.views import listProfView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -25,7 +25,8 @@ urlpatterns = [
     path("prof/",include("prof.urls")),
     path("stud/",include("stud.urls")),
     #path("", indexPageView, name="index"),
-    path("listprofs", include("prof.urls")),
+    #path("listprofs", include("prof.urls")),
     #prof_urls.include(prof_urls)
+   # path('', views.BootstrapFilterView(), name='bootstrap-filter')
 ]
 
