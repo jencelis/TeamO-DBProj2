@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html lang = 'en'>
+<head>
+        <title>Professors</title>
+</head>
+<body>
+    <h2>Professor</h2>
+    {% for instructor in Instructors %}
+        {{ instructor.name }}{{ instructor.dept_name }}<br>
+    {% endfor %}
+</body>
+</html>
