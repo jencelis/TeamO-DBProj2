@@ -14,7 +14,7 @@
         <div class="form-row">
             <div class="form-group col-12">
                 <div class="input-group">
-                    <input class="form-control py-2 border-right-0 border" type="search" name="profName" placeholder="Professor Name..." />
+                    <input class="form-control py-2 border-right-0 border" type="search" name="profName" placeholder="Name..." />
                     <span class="input-group-append">
                         <div class="input-group-text bg-transparent">
                             <i class="fa fa-search"></i>
@@ -24,7 +24,20 @@
             </div>
         </div>
 
+
           <div class="form-row">
+            <div class="form-group col-12">
+                <div class="input-group">
+                    <input class="form-control py-2 border-right-0 border" type="search" name="dept" placeholder="Department..." />
+                    <span class="input-group-append">
+                        <div class="input-group-text bg-transparent">
+                            <i class="fa fa-search"></i>
+                        </div>
+                    </span>
+                </div>
+            </div>
+
+         <div class="form-row">
             <div class="form-group col-12">
                 <div class="input-group">
                     <input class="form-control py-2 border-right-0 border" type="search" name="semester" placeholder="Semester..." />
@@ -38,6 +51,22 @@
 
         <button type="submit" class="btn btn-primary">Search</button>
       </form>
+
+    <hr />
+
+
+ QUERY RESULTS
+
+
+      <div class="row">
+        <ul>
+          <h2>Professor:</h2>
+            {% for instructor in Instructors %}
+                {{ instructor.name }}   ({{ instructor.dept_name_id }})<br>
+            {% endfor %}
+        </ul>
+      </div>
+
 
 
 

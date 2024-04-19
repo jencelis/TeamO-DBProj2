@@ -4,9 +4,9 @@
         <title>Professors</title>
 </head>
 <body>
-    <h2>Professor</h2>
+    <h2>Professor:</h2>
     {% for instructor in Instructors %}
-        {{ instructor.name }}{{ instructor.dept_name }}<br>
+        {{ instructor.name }}   ({{ instructor.dept_name_id }})<br>
     {% endfor %}
 </body>
 </html>

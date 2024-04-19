@@ -7,5 +7,6 @@ urlpatterns = [
     #path("", indexPageView, name="index"),
     #path("listprofs", listProfView, name="Instructors"),
     #path("", views.listProfView, name="Instructors")
+    #path("", views.testing, name="prof/")
     path('', views.BootstrapFilterView, name='prof/')
 ]

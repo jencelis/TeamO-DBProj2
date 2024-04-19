@@ -1,14 +1,5 @@
 from django.db import models
 
-class Course(models.Model):
-    course_id = models.CharField(primary_key=True, max_length=8)
-    title = models.CharField(max_length=64, blank=True, null=True)
-    dept_name = models.ForeignKey('Department', models.DO_NOTHING, db_column='dept_name', blank=True, null=True)
-    credits = models.IntegerField(blank=True, null=True)
-
-    class Meta:
-        managed = False
-        db_table = 'course'
 
 
 class Department(models.Model):
@@ -30,13 +21,3 @@ class Instructor(models.Model):
     class Meta:
         managed = False
         db_table = 'instructor'
-
-
-class Prereq(models.Model):
-    course = models.OneToOneField(Course, models.DO_NOTHING, primary_key=True)  # The composite primary key (course_id, preq_id) found, that is not supported. The first column is selected.
-    preq = models.ForeignKey(Course, models.DO_NOTHING, related_name='prereq_preq_set')
-
-    class Meta:
-        managed = False
-        db_table = 'prereq'
-        unique_together = (('course', 'preq'),)
