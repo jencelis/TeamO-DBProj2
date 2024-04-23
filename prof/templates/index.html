@@ -1,0 +1,36 @@
+<h3>Professor Page</h3>
+{% block content %}
+    <form method="GET" action="{% url 'index' %}">
+        {{ form.as_p }}
+        <input type = "submit" value = "Submit" class = 'btn btn-primary' />
+
+    </form>
+    <hr/>
+
+    <table class = 'table'>
+        <thead>
+        <tr>
+            <th>Name</th>
+            <th>Department</th>
+        </tr>
+        </thead>
+        <tbody>
+            {% for prof in profs %}
+
+                <tr>
+
+                <td>
+                    <a href = "http://127.0.0.1:8000/">
+                    {{ prof.name }}
+
+                </td>
+                <td>
+                    {{  prof.dept_name_id }}
+                </td>
+                </tr>
+
+            {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}

@@ -10,7 +10,8 @@
 <body>
 
  <h3>Professor Page</h3>
-      <form method="GET" action=".">
+      <form >
+
         <div class="form-row">
             <div class="form-group col-12">
                 <div class="input-group">
@@ -37,10 +38,11 @@
                 </div>
             </div>
 
-         <div class="form-row">
+         <form class="form-row" >
+
             <div class="form-group col-12">
                 <div class="input-group">
-                    <input class="form-control py-2 border-right-0 border" type="search" name="semester" placeholder="Semester..." />
+                    <input class="form-control py-2 border-right-0 border" type="search" name="sem" placeholder="Semester..." />
                     <span class="input-group-append">
                         <div class="input-group-text bg-transparent">
                             <i class="fa fa-search"></i>
@@ -49,25 +51,10 @@
                 </div>
             </div>
 
-        <button type="submit" class="btn btn-primary">Search</button>
-      </form>
-
+        <button type="submit" class="btn btn-secondary">Search</button>
     <hr />
 
-
- QUERY RESULTS
-
-
-      <div class="row">
-        <ul>
-          <h2>Professor:</h2>
-            {% for instructor in Instructors %}
-                {{ instructor.name }}   ({{ instructor.dept_name_id }})<br>
-            {% endfor %}
-        </ul>
-      </div>
-
-
+         </form>
 
 
 

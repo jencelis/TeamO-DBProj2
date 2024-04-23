@@ -1,38 +1,26 @@
 import django.db.models.signals
 from django.shortcuts import render, HttpResponse
-
-from .models import Instructor
-
-
+from .models import *
+from .filters import *
 
 # Create your views here.
 
+def BootstrapFilterView(request):
 
-def listProfView(request):
-    data = Instructor.objects.all()
-    context = {"Instructors": data}
-    return render(request, 'listprofs.html',context)
+    return render(request, 'bootstrap_form.html',{})
 
 
-def testing(request):
-    data = Instructor.objects.all()
-    context = {"Instructors": data}
-    return render(request, 'testing.html',context)
+
+
+def index(request):
+    prof_filter = InstructorFilter(request.GET, queryset=Instructor.objects.all())
+
+    context = {
+        'form': prof_filter.form,
+        'profs': prof_filter.qs
+    }
+    return render(request, 'index.html',context)
 
 '''
-def BootstrapFilterView(request):
-  # names = models.Instructor.objects.all()
- #  teach = models.Teaches.objects.all()
-
-   profName = request.GET.get('profName')
-   profTeaches = request.GET.get('profTeaches')
-   context = {
-  #    'queryset': names + "" + teach
-   }
-   return render(request, 'bootstrap_form.html',{})
+def courseIndex(request):
 '''
-
-def BootstrapFilterView(request):
-    names = Instructor.objects.all()
-    context = {"Instructors": names}
-    return render(request, 'bootstrap_form.html',context)
