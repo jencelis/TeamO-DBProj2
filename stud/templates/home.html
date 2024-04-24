@@ -1,0 +1,34 @@
+<form method="POST">
+  {% csrf_token %}
+  <label for="department">Department:</label>
+  <select name="department" id="department">
+    {% for department in departments %}
+    <option value="{{ department }}">{{ department }}</option>
+    {% endfor %}
+  </select>
+  <br>
+  <label for="year">Year:</label>
+  <select name="year" id="year">
+    {% for year in years %}
+    <option value="{{ year }}">{{ year }}</option>
+    {% endfor %}
+  </select>
+  <br>
+  <label for="semester">Semester:</label>
+  <select name="semester" id="semester">
+    {% for semester in semesters %}
+    <option value="{{ semester }}">{{ semester }}</option>
+    {% endfor %}
+  </select>
+  <br>
+  <button type="submit">Submit</button>
+</form>
+
+{% if course_sections %}
+  <h2>Course Sections</h2>
+  <ul>
+    {% for course_section in course_sections %}
+    <li>Course ID: {{ course_section.course_id }} | Section ID: {{ course_section.sec_id }}</li>
+    {% endfor %}
+  </ul>
+{% endif %}
