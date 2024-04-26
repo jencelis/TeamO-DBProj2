@@ -2,45 +2,59 @@ from django.db import models
 
 # Create your models here.
 class Department(models.Model):
+    id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=100)
 
-    def __str__(self):
-        return self.name
+    class Meta:
+        db_table = 'department'
 
-class Professor(models.Model):
-    name = models.CharField(max_length=100)
-    salary = models.DecimalField(max_digits=8, decimal_places=2)
-    department = models.ForeignKey(Department, on_delete=models.CASCADE)
+class Instructor(models.Model):
+    id = models.CharField(primary_key=True, max_length=5)
+    name = models.CharField(max_length=32, blank=True, null=True)
+    dept_name = models.ForeignKey('Department', on_delete=models.CASCADE, db_column='dept_name', blank=True, null=True)
+    salary = models.IntegerField(blank=True, null=True)
 
-    def __str__(self):
-        return self.name
-    
-class Professor(models.Model):
-    name = models.CharField(max_length=100)
-    department = models.ForeignKey('Department', on_delete=models.CASCADE)
-
-class Department(models.Model):
-    name = models.CharField(max_length=100)
-
-class CourseSection(models.Model):
-    professor = models.ForeignKey(Professor, on_delete=models.CASCADE)
-    academic_year = models.CharField(max_length=9)  # e.g., "2023-2024"
-    semester = models.CharField(max_length=10)  # e.g., "Fall"
-    students = models.ManyToManyField('Student', through='Enrollment')
-
-class Student(models.Model):
-    name = models.CharField(max_length=100)
-
-class Enrollment(models.Model):
-    student = models.ForeignKey(Student, on_delete=models.CASCADE)
-    course_section = models.ForeignKey(CourseSection, on_delete=models.CASCADE)
+    class Meta:
+        db_table = 'instructor'
 
 class Funding(models.Model):
-    professor = models.ForeignKey(Professor, on_delete=models.CASCADE)
+    instructor = models.ForeignKey(Instructor, on_delete=models.CASCADE)
     amount = models.DecimalField(max_digits=10, decimal_places=2)
     year = models.CharField(max_length=4)
 
+    class Meta:
+        db_table = 'funding'
+
 class Publication(models.Model):
-    professor = models.ForeignKey(Professor, on_delete=models.CASCADE)
+    instructor = models.ForeignKey(Instructor, on_delete=models.CASCADE)
     title = models.CharField(max_length=255)
     year_published = models.CharField(max_length=4)
+
+    class Meta:
+        db_table = 'publication'
+
+class Course(models.Model):
+    course_id = models.CharField(primary_key=True, max_length=10)
+    title = models.CharField(max_length=255)
+    dept_name = models.CharField(max_length=50)  # Assuming department names are short strings
+    credits = models.IntegerField()
+
+    class Meta:
+        db_table = 'course'  # Ensure this matches the actual table name in your database
+
+    def __str__(self):
+        return f"{self.title} ({self.course_id})"
+
+class Section(models.Model):
+    course = models.OneToOneField(Course, on_delete=models.DO_NOTHING, primary_key=True)
+    sec_id = models.CharField(max_length=4)
+    semester = models.IntegerField()
+    year = models.IntegerField()
+    building = models.CharField(max_length=32, blank=True, null=True)
+    room = models.CharField(max_length=8, blank=True, null=True)
+    capacity = models.IntegerField(blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'section'
+        unique_together = (('course', 'sec_id', 'semester', 'year'),)
