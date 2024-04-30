@@ -12,4 +12,8 @@ class InstructorFilter(django_filters.FilterSet):
 class CourseFilter(django_filters.FilterSet):
     class Meta:
         model = Course
+
         fields = {'title': ['icontains']}
+
+        fields = {'title': ['exact']}
+
