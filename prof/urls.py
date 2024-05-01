@@ -5,7 +5,6 @@ from.import views
 
 urlpatterns = [
 
-    path('', views.BootstrapFilterView, name='prof/'),
-    path('list/', views.index, name='index'),
+    path('', views.index, name=''),
 
 ]

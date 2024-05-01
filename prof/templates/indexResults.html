@@ -1,0 +1,27 @@
+{% block content %}
+  <h1>Courses</h1>
+  
+
+    <h2>Courses Taught by {{ instructor.name }} for {{ semester }}</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Course ID</th>
+          <th>Course Title</th>
+          <th>Number of Students</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for teaching in teachings %}
+          <tr>
+            <td>{{ teaching.course.id }}</td>
+            <td>{{ teaching.course.title }}</td>
+            <td>{{ teaching.course.students.count }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    
+    <h3>Total Number of Students: {{ total_students }}</h3>
+
+{% endblock %}

@@ -1,0 +1,86 @@
+<style>
+body{
+    background: ghostwhite;
+    font-family: Arial;
+}
+
+h3{
+    background: darkgreen;
+    font-family: Arial;
+    color: palegoldenrod;
+    font-size: 25pt;
+    text-align: center;
+}
+h2{
+    background: ghostwhite;
+    font-family: Arial;
+    color: darkgreen;
+    font-size: 15pt;
+    text-align: left;
+
+}
+
+h4{
+    background: palegoldenrod;
+    font-family: Arial;
+    color: palegoldenrod;
+    font-size: 15pt;
+    text-align: left;
+
+}
+
+
+
+</style>
+
+
+
+<h3>Student</h3>
+<form method="POST">
+  {% csrf_token %}
+  <label for="department">Department:</label>
+  <select name="department" id="department">
+    {% for department in departments %}
+    <option value="{{ department }}">{{ department }}</option>
+    {% endfor %}
+  </select>
+  <br>
+  <label for="year">Year:</label>
+  <select name="year" id="year">
+    {% for year in years %}
+    <option value="{{ year }}">{{ year }}</option>
+    {% endfor %}
+  </select>
+  <br>
+  <label for="semester">Semester:</label>
+  <select name="semester" id="semester">
+    {% for semester in semesters %}
+    <option value="{{ semester }}">{{ semester }}</option>
+    {% endfor %}
+  </select>
+
+<br>
+  <button type="submit" class = 'btn btn-secondary'>Submit</button>
+</form>
+
+
+<results>
+{% if course_sections %}
+    <br>
+    <h4>_</h4>
+    <h2>Course Sections:</h2>
+
+
+    <br>
+    {% for course_section in course_sections %}
+
+        <th>{{ course_section.course_id }}  </th>
+        <th>{{ course_section.sec_id }}      </th>
+
+        <br>
+    {% endfor %}
+</results>
+    </table>
+{% endif %}
+
+

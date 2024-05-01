@@ -1,36 +1,50 @@
-<h3>Professor Page</h3>
-{% block content %}
-    <form method="GET" action="{% url 'index' %}">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Professor</title>
+</head>
+
+<style>
+body{
+    background: ghostwhite;
+    font-family: Arial;
+}
+
+h3{
+    background: darkgreen;
+    font-family: Arial;
+    color: palegoldenrod;
+    font-size: 25pt;
+    text-align: center;
+}
+h2{
+    background: ghostwhite;
+    font-family: Arial;
+    color: darkgreen;
+    font-size: 15pt;
+    text-align: left;
+
+}
+
+h4{
+    background: palegoldenrod;
+    font-family: Arial;
+    color: palegoldenrod;
+    font-size: 15pt;
+    text-align: left;
+
+}
+</style>
+
+<h3>Professor</h3>
+</html>
+
+<body>
+    <form method="post">
+        {% csrf_token %}
         {{ form.as_p }}
-        <input type = "submit" value = "Submit" class = 'btn btn-primary' />
-
+        <button type="submit">Submit</button>
     </form>
-    <hr/>
+</body>
+</html>
 
-    <table class = 'table'>
-        <thead>
-        <tr>
-            <th>Name</th>
-            <th>Department</th>
-        </tr>
-        </thead>
-        <tbody>
-            {% for prof in profs %}
-
-                <tr>
-
-                <td>
-                    <a href = "http://127.0.0.1:8000/">
-                    {{ prof.name }}
-
-                </td>
-                <td>
-                    {{  prof.dept_name_id }}
-                </td>
-                </tr>
-
-            {% endfor %}
-        </tbody>
-    </table>
-
-{% endblock %}

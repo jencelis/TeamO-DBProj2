@@ -24,9 +24,7 @@ urlpatterns = [
     path("admins/",include("admins.urls")),
     path("prof/",include("prof.urls")),
     path("stud/",include("stud.urls")),
-    #path("", indexPageView, name="index"),
-    #path("listprofs", include("prof.urls")),
-    #prof_urls.include(prof_urls)
-   # path('', views.BootstrapFilterView(), name='bootstrap-filter')
+    path('welcome/',include('welcome.urls')),
+
 ]
 

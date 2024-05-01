@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Welcome</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+</head>
+<style>
+    body{
+        background: ghostwhite;
+    }
+
+    h2{
+        font-family: Arial;
+        color:darkgreen;
+        font-size: 25pt;
+        text-align: center;
+        background: goldenrod;
+    }
+
+    h3{
+        background: darkgreen;
+        font-family: Arial;
+        color: palegoldenrod;
+        font-size: 13pt;
+        text-align: Left;
+    }
+
+
+</style>
+
+
+<body>
+<form method="POST">
+  {% csrf_token %}
+    <div class="container">
+      <p>
+          <h2>
+          <b>
+          University Database
+          </b>
+          <br>
+          </h2>
+
+
+        <br>
+        <br>
+
+        <h3>
+            <b>ADMIN</b>
+        </h3>
+            <input class="form-control py-2 border-right-0 border" type="search" name="adminName" placeholder="User" />
+            <input class="form-control py-2 border-right-0 border" type="search" name="adminPsswrd" placeholder="Password" />
+
+
+            <button type="submit" class = 'btn btn-secondary' name = 'button_type' value = 'adminButton'>LOG IN</button>
+
+        <br>
+        <br>
+        <h3>
+            <b>PROFESSOR</b>
+        </h3>
+
+            <input class="form-control py-2 border-right-0 border" type="search" name="profName" placeholder="Name" />
+            <button type="submit" class = 'btn btn-secondary' name = 'button_type' value = 'profButton'>GO</button>
+
+
+        <br>
+        <br>
+        <h3>
+
+            <b>STUDENT</b>
+       </h3>
+            <button type="submit" class = 'btn btn-secondary' name = 'button_type' value = 'studButton'>GO</button>
+
+
+
+
+
+      </p>
+    </div>
+</form>
+</body>
+</html>

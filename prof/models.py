@@ -1,7 +1,6 @@
 from django.db import models
 
 
-
 class Department(models.Model):
     dept_name = models.CharField(primary_key=True, max_length=32)
     building = models.CharField(max_length=32, blank=True, null=True)
@@ -68,3 +67,29 @@ class Teaches(models.Model):
         ordering = ['name']
         abstract = True
 
+
+class Student(models.Model):
+    student_id = models.CharField(primary_key=True, max_length=8)
+    name = models.CharField(max_length=32, blank=True, null=True)
+    dept_name = models.ForeignKey(Department, models.DO_NOTHING, db_column='dept_name', blank=True, null=True)
+    total_credits = models.IntegerField(blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'student'
+
+
+class Takes(models.Model):
+    student = models.OneToOneField(Student, models.DO_NOTHING, primary_key=True)  # The composite primary key (student_id, course_id, sec_id, semester, year) found, that is not supported. The first column is selected.
+    course = models.ForeignKey(Section, models.DO_NOTHING)
+    sec = models.ForeignKey(Section, models.DO_NOTHING, to_field='sec_id', related_name='takes_sec_set')
+    semester = models.ForeignKey(Section, models.DO_NOTHING, db_column='semester', to_field='semester', related_name='takes_semester_set')
+    year = models.ForeignKey(Section, models.DO_NOTHING, db_column='year', to_field='year', related_name='takes_year_set')
+    grade = models.CharField(max_length=2, blank=True, null=True)
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(fields=['name', 'module'], name='unique-in-module')
+        ]
+        ordering = ['name']
+        abstract = True
