@@ -1,6 +1,4 @@
-from django.shortcuts import render, HttpResponse
-
-# Create your views here.
+# Import the models
 from .models import Course, Section
 from django.shortcuts import render
 

@@ -1,6 +1,7 @@
 from django.db import models
 
-# Create your models here.
+
+
 class Department(models.Model):
     dept_name = models.CharField(primary_key=True, max_length=32)
     building = models.CharField(max_length=32, blank=True, null=True)
@@ -66,3 +67,4 @@ class Teaches(models.Model):
         ]
         ordering = ['name']
         abstract = True
+

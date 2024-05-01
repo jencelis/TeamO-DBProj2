@@ -1,41 +1,3 @@
-<style>
-body{
-    background: ghostwhite;
-    font-family: Arial;
-}
-
-h3{
-    background: darkgreen;
-    font-family: Arial;
-    color: palegoldenrod;
-    font-size: 25pt;
-    text-align: center;
-}
-h2{
-    background: ghostwhite;
-    font-family: Arial;
-    color: darkgreen;
-    font-size: 15pt;
-    text-align: left;
-
-}
-
-h4{
-    background: palegoldenrod;
-    font-family: Arial;
-    color: palegoldenrod;
-    font-size: 15pt;
-    text-align: left;
-
-}
-
-
-
-</style>
-
-
-
-<h3>Student</h3>
 <form method="POST">
   {% csrf_token %}
   <label for="department">Department:</label>
@@ -58,29 +20,15 @@ h4{
     <option value="{{ semester }}">{{ semester }}</option>
     {% endfor %}
   </select>
-
-<br>
-  <button type="submit" class = 'btn btn-secondary'>Submit</button>
+  <br>
+  <button type="submit">Submit</button>
 </form>
 
-
-<results>
 {% if course_sections %}
-    <br>
-    <h4>_</h4>
-    <h2>Course Sections:</h2>
-
-
-    <br>
+  <h2>Course Sections</h2>
+  <ul>
     {% for course_section in course_sections %}
-
-        <th>{{ course_section.course_id }}  </th>
-        <th>{{ course_section.sec_id }}      </th>
-
-        <br>
+    <li>Course ID: {{ course_section.course_id }} | Section ID: {{ course_section.sec_id }}</li>
     {% endfor %}
-</results>
-    </table>
+  </ul>
 {% endif %}
-
-
