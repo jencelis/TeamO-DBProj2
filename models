@@ -164,8 +164,9 @@ class Prereq(models.Model):
         unique_together = (('course', 'preq'),)
 
 
+
 class Section(models.Model):
-    course = models.OneToOneField(Course, models.DO_NOTHING, primary_key=True)  # The composite primary key (course_id, sec_id, semester, year) found, that is not supported. The first column is selected.
+    course = models.ForeignKey(Course, on_delete=models.CASCADE)
     sec_id = models.CharField(max_length=4)
     semester = models.IntegerField()
     year = models.IntegerField()

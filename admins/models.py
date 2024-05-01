@@ -11,7 +11,7 @@ class Department(models.Model):
 class Instructor(models.Model):
     id = models.CharField(primary_key=True, max_length=5)
     name = models.CharField(max_length=32, blank=True, null=True)
-    dept_name = models.ForeignKey('Department', on_delete=models.CASCADE, db_column='dept_name', blank=True, null=True)
+    dept_name = models.ForeignKey('Department', on_delete=models.CASCADE, db_column='dept_name', blank=True, null=False)
     salary = models.IntegerField(blank=True, null=True)
 
     class Meta:
@@ -36,7 +36,7 @@ class Publication(models.Model):
 class Course(models.Model):
     course_id = models.CharField(primary_key=True, max_length=10)
     title = models.CharField(max_length=255)
-    dept_name = models.CharField(max_length=50)  # Assuming department names are short strings
+    dept_name = models.CharField(max_length=50, default='Default Department')  # Assuming department names are short strings
     credits = models.IntegerField()
 
     class Meta:
@@ -46,7 +46,7 @@ class Course(models.Model):
         return f"{self.title} ({self.course_id})"
 
 class Section(models.Model):
-    course = models.OneToOneField(Course, on_delete=models.DO_NOTHING, primary_key=True)
+    course = models.ForeignKey(Course, on_delete=models.CASCADE)
     sec_id = models.CharField(max_length=4)
     semester = models.IntegerField()
     year = models.IntegerField()
@@ -58,3 +58,35 @@ class Section(models.Model):
         managed = False
         db_table = 'section'
         unique_together = (('course', 'sec_id', 'semester', 'year'),)
+
+class Teaches(models.Model):
+    course = models.ForeignKey(Course, on_delete=models.CASCADE)
+    sec_id = models.CharField(max_length=4)
+    semester = models.CharField(max_length=2)
+    year = models.IntegerField()
+    teacher_id = models.ForeignKey(Instructor, on_delete=models.CASCADE)
+
+    class Meta:
+        db_table = 'teaches'
+        unique_together = (('course', 'sec_id', 'semester', 'year', 'teacher_id'),)
+
+class Student(models.Model):
+    student_id = models.CharField(max_length=8, primary_key=True)
+    name = models.CharField(max_length=100)
+    dept_name = models.CharField(max_length=32)
+    total_credits = models.IntegerField()
+
+    class Meta:
+        db_table = 'student'
+
+class Takes(models.Model):
+    student = models.ForeignKey(Student, on_delete=models.CASCADE)
+    course = models.ForeignKey(Course, on_delete=models.CASCADE)
+    section = models.ForeignKey(Section, on_delete=models.CASCADE)
+    semester = models.CharField(max_length=2)
+    year = models.IntegerField()
+    grade = models.CharField(max_length=2, blank=True, null=True)
+
+    class Meta:
+        db_table = 'takes'
+        unique_together = (('student', 'course', 'section', 'semester', 'year'),)

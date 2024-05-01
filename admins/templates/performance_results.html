@@ -1,7 +1,7 @@
 {% block content %}
   <h1>Performance Results</h1>
   
-  {% if teachings %}
+  {% if courses %}
     <h2>Courses Taught by {{ instructor.name }} for {{ academic_year }} - {{ semester }}</h2>
     <table>
       <thead>
@@ -12,11 +12,11 @@
         </tr>
       </thead>
       <tbody>
-        {% for teaching in teachings %}
+        {% for course in courses %}
           <tr>
-            <td>{{ teaching.course.id }}</td>
-            <td>{{ teaching.course.title }}</td>
-            <td>{{ teaching.course.students.count }}</td>
+            <td>{{ course.id }}</td>
+            <td>{{ course.title }}</td>
+            <td>{{ course.students.count }}</td>
           </tr>
         {% endfor %}
       </tbody>
@@ -25,7 +25,7 @@
     <h3>Total Number of Students: {{ total_students }}</h3>
     
     <h3>Funding and Publications</h3>
-    <p>Total Funding Secured: ${{ total_funding }}</p>
+    <p>Total Funding Secured: ${{ total_funding|floatformat:2 }}</p>
     <p>Total Publications: {{ total_publications }}</p>
   {% else %}
     <p>No teaching records found for this instructor.</p>
