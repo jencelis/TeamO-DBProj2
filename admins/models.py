@@ -1,50 +1,52 @@
 from django.db import models
 
 # Create your models here.
-class Course(models.Model):
-    course_id = models.CharField(primary_key=True, max_length=8)
-    title = models.CharField(max_length=64, blank=True, null=True)
-    dept_name = models.ForeignKey('Department', models.DO_NOTHING, db_column='dept_name', blank=True, null=True)
-    credits = models.IntegerField(blank=True, null=True)
-
-    class Meta:
-        managed = False
-        db_table = 'course'
-
-
 class Department(models.Model):
-    dept_name = models.CharField(primary_key=True, max_length=32)
-    building = models.CharField(max_length=32, blank=True, null=True)
-    budget = models.IntegerField(blank=True, null=True)
+    id = models.AutoField(primary_key=True)
+    name = models.CharField(max_length=100)
 
     class Meta:
-        managed = False
         db_table = 'department'
-
 
 class Instructor(models.Model):
     id = models.CharField(primary_key=True, max_length=5)
     name = models.CharField(max_length=32, blank=True, null=True)
-    dept_name = models.ForeignKey(Department, models.DO_NOTHING, db_column='dept_name', blank=True, null=True)
+    dept_name = models.ForeignKey('Department', on_delete=models.CASCADE, db_column='dept_name', blank=True, null=True)
     salary = models.IntegerField(blank=True, null=True)
 
     class Meta:
-        managed = False
         db_table = 'instructor'
 
-
-class Prereq(models.Model):
-    course = models.OneToOneField(Course, models.DO_NOTHING, primary_key=True)  # The composite primary key (course_id, preq_id) found, that is not supported. The first column is selected.
-    preq = models.ForeignKey(Course, models.DO_NOTHING, related_name='prereq_preq_set')
+class Funding(models.Model):
+    instructor = models.ForeignKey(Instructor, on_delete=models.CASCADE)
+    amount = models.DecimalField(max_digits=10, decimal_places=2)
+    year = models.CharField(max_length=4)
 
     class Meta:
-        managed = False
-        db_table = 'prereq'
-        unique_together = (('course', 'preq'),)
+        db_table = 'funding'
 
+class Publication(models.Model):
+    instructor = models.ForeignKey(Instructor, on_delete=models.CASCADE)
+    title = models.CharField(max_length=255)
+    year_published = models.CharField(max_length=4)
+
+    class Meta:
+        db_table = 'publication'
+
+class Course(models.Model):
+    course_id = models.CharField(primary_key=True, max_length=10)
+    title = models.CharField(max_length=255)
+    dept_name = models.CharField(max_length=50)  # Assuming department names are short strings
+    credits = models.IntegerField()
+
+    class Meta:
+        db_table = 'course'  # Ensure this matches the actual table name in your database
+
+    def __str__(self):
+        return f"{self.title} ({self.course_id})"
 
 class Section(models.Model):
-    course = models.OneToOneField(Course, models.DO_NOTHING, primary_key=True)  # The composite primary key (course_id, sec_id, semester, year) found, that is not supported. The first column is selected.
+    course = models.OneToOneField(Course, on_delete=models.DO_NOTHING, primary_key=True)
     sec_id = models.CharField(max_length=4)
     semester = models.IntegerField()
     year = models.IntegerField()
@@ -56,45 +58,3 @@ class Section(models.Model):
         managed = False
         db_table = 'section'
         unique_together = (('course', 'sec_id', 'semester', 'year'),)
-
-
-class Student(models.Model):
-    student_id = models.CharField(primary_key=True, max_length=8)
-    name = models.CharField(max_length=32, blank=True, null=True)
-    dept_name = models.ForeignKey(Department, models.DO_NOTHING, db_column='dept_name', blank=True, null=True)
-    total_credits = models.IntegerField(blank=True, null=True)
-
-    class Meta:
-        managed = False
-        db_table = 'student'
-
-
-class Takes(models.Model):
-    student = models.OneToOneField(Student, models.DO_NOTHING, primary_key=True)  # The composite primary key (student_id, course_id, sec_id, semester, year) found, that is not supported. The first column is selected.
-    course = models.ForeignKey(Section, models.DO_NOTHING)
-    sec = models.ForeignKey(Section, models.DO_NOTHING, to_field='sec_id', related_name='takes_sec_set')
-    semester = models.ForeignKey(Section, models.DO_NOTHING, db_column='semester', to_field='semester', related_name='takes_semester_set')
-    year = models.ForeignKey(Section, models.DO_NOTHING, db_column='year', to_field='year', related_name='takes_year_set')
-    grade = models.CharField(max_length=2, blank=True, null=True)
-
-    class Meta:
-        constraints = [
-            models.UniqueConstraint(fields=['name', 'module'], name='unique-in-module')
-        ]
-        ordering = ['name']
-        abstract = True
-
-
-class Teaches(models.Model):
-    course = models.OneToOneField(Section, models.DO_NOTHING, primary_key=True)  # The composite primary key (course_id, sec_id, semester, year, teacher_id) found, that is not supported. The first column is selected.
-    sec = models.ForeignKey(Section, models.DO_NOTHING, to_field='sec_id', related_name='teaches_sec_set')
-    semester = models.ForeignKey(Section, models.DO_NOTHING, db_column='semester', to_field='semester', related_name='teaches_semester_set')
-    year = models.ForeignKey(Section, models.DO_NOTHING, db_column='year', to_field='year', related_name='teaches_year_set')
-    teacher = models.ForeignKey(Instructor, models.DO_NOTHING)
-
-    class Meta:
-        constraints = [
-            models.UniqueConstraint(fields=['name', 'module'], name='unique-in-module')
-        ]
-        ordering = ['name']
-        abstract = True

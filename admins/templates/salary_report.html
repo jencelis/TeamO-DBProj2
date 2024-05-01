@@ -1,28 +1,21 @@
-<html>
-<head>
-    <title>Salary Report</title>
-</head>
-<body>
-    <h1>Salary Report by Department</h1>
-    <table border="1">
-        <thead>
-            <tr>
-                <th>Department</th>
-                <th>Minimum Salary</th>
-                <th>Maximum Salary</th>
-                <th>Average Salary</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for department in departments %}
-            <tr>
-                <td>{{ department.name }}</td>
-                <td>{{ department.min_salary }}</td>
-                <td>{{ department.max_salary }}</td>
-                <td>{{ department.avg_salary }}</td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-</body>
-</html>
+<h1>Salary Report by Department</h1>
+<table>
+    <thead>
+        <tr>
+            <th>Department</th>
+            <th>Min Salary</th>
+            <th>Max Salary</th>
+            <th>Avg Salary</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for department in departments %}
+        <tr>
+            <td>{{ department.dept_name }}</td>
+            <td>${{ department.min_salary|floatformat:2 }}</td>
+            <td>${{ department.max_salary|floatformat:2 }}</td>
+            <td>${{ department.avg_salary|floatformat:2 }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>

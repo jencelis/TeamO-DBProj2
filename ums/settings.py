@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django_filters',
     'admins',
     'prof',
     'stud',
@@ -85,7 +86,7 @@ DATABASES = {
         'USER': 'root',
         'HOST': '127.0.0.1',
         'PORT': 3306,
-        'PASSWORD': 'mypassword'
+        'PASSWORD': 'Morons.99'
     }
 }
 
