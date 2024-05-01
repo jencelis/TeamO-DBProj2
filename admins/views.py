@@ -5,7 +5,7 @@ from .forms import PerformanceForm
 
 # Home page view
 def admin_home(request):
-    return HttpResponse("Administration Page")
+    return render(request, 'admin_welcome.html')
 
 def list_professors(request):
     sort_by = request.GET.get('sort', 'name')  # Default sorting by name

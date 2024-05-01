@@ -1,0 +1,25 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Dashboard</title>
+</head>
+<body>
+    <h1>Welcome, Admin!</h1>
+    <div>
+        <!-- Button for Roster -->
+        <form action="{% url 'list-professors' %}" method="get">
+            <button type="submit">Professor List</button>
+        </form>
+
+        <!-- Button for Salary Report -->
+        <form action="{% url 'salary_report' %}" method="get">
+            <button type="submit">Salary Report</button>
+        </form>
+
+        <!-- Button for Performance Report -->
+        <form action="{% url 'performance_report' %}" method="get">
+            <button type="submit">Performance Report</button>
+        </form>
+    </div>
+</body>
+</html>
