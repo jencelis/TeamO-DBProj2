@@ -59,16 +59,20 @@ class Section(models.Model):
         db_table = 'section'
         unique_together = (('course', 'sec_id', 'semester', 'year'),)
 
+
+
 class Teaches(models.Model):
+    id = models.AutoField(primary_key=True)
     course = models.ForeignKey(Course, on_delete=models.CASCADE)
     sec_id = models.CharField(max_length=4)
     semester = models.CharField(max_length=2)
     year = models.IntegerField()
-    teacher_id = models.ForeignKey(Instructor, on_delete=models.CASCADE)
+    teacher = models.ForeignKey(Instructor, on_delete=models.CASCADE, db_column='teacher_id')
 
     class Meta:
+        managed = False
         db_table = 'teaches'
-        unique_together = (('course', 'sec_id', 'semester', 'year', 'teacher_id'),)
+        unique_together = (('course', 'sec_id', 'semester', 'year', 'teacher'),)
 
 class Student(models.Model):
     student_id = models.CharField(max_length=8, primary_key=True)
@@ -80,13 +84,13 @@ class Student(models.Model):
         db_table = 'student'
 
 class Takes(models.Model):
-    student = models.ForeignKey(Student, on_delete=models.CASCADE)
-    course = models.ForeignKey(Course, on_delete=models.CASCADE)
-    section = models.ForeignKey(Section, on_delete=models.CASCADE)
-    semester = models.CharField(max_length=2)
+    student = models.ForeignKey('Student', on_delete=models.CASCADE)
+    course = models.ForeignKey('Course', on_delete=models.CASCADE)
+    sec_id = models.CharField(max_length=10)
+    semester = models.CharField(max_length=10)
     year = models.IntegerField()
-    grade = models.CharField(max_length=2, blank=True, null=True)
+    grade = models.CharField(max_length=3, blank=True, null=True)
 
     class Meta:
         db_table = 'takes'
-        unique_together = (('student', 'course', 'section', 'semester', 'year'),)
+        unique_together = (('student', 'course', 'sec_id', 'semester', 'year'),)
