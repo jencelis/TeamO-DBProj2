@@ -11,13 +11,13 @@ def home(request):
     if request.method == 'POST':
 
         #button = request.POST.get('button_name')
-        if request.POST.get('button_name') == 'adminButton':
+        if request.POST.get('button_type') == 'adminButton':
             # re-direct to admin view
             return HttpResponseRedirect("/admins/")
-        elif request.POST.get('button_name') == 'profButton':
+        elif request.POST.get('button_type') == 'profButton':
             # re-direct to prof view
             return HttpResponseRedirect("/prof/")
-        elif request.POST.get('button_name') == 'studButton':
+        elif request.POST.get('button_type') == 'studButton':
             # re-direct to prof view
             return HttpResponseRedirect("/stud/")
 
