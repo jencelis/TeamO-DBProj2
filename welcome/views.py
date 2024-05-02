@@ -10,10 +10,17 @@ from .forms import *
 def home(request):
     if request.method == 'POST':
 
+        username = request.POST.get('adminName')
+        password = request.POST.get('adminPsswrd')
+
         #button = request.POST.get('button_name')
         if request.POST.get('button_type') == 'adminButton':
-            # re-direct to admin view
-            return HttpResponseRedirect("/admins/")
+            # Query the database to check if the provided username and password match
+            user = User.objects.filter(username=username, password=password).first()
+
+            if user:
+                # re-direct to admin view
+                return HttpResponseRedirect("/admins/")
         elif request.POST.get('button_type') == 'profButton':
             # re-direct to prof view
             return HttpResponseRedirect("/prof/")
